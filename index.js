@@ -40,7 +40,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use((req, res, next) => {
   res.locals.path = req.path;
-  next();
+  next(); 
 });
 
 // routes
