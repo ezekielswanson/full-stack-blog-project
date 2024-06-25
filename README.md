@@ -1,6 +1,8 @@
 Full stack application that allows users to create, update, or delete blog posts.
 
 Technologies used: Node.js, Express, MongoDB, EJS
+Live link
+https://full-stack-blog-project-ec1d5c85d520.herokuapp.com/blogs
 
 
 
