@@ -18,9 +18,16 @@ const app = express();
 
 app.listen(process.env.PORT || 3000,()=>{
 
-  mongoose.connect(dbURI, /*{ useNewUrlParser: true, useUnifiedTopology: true } */ )
-
-  .catch(err => console.log(err,"connection failed"));
+  mongoose.connect(dbURI, {
+    serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds
+    connectTimeoutMS: 10000, // Give up initial connection after 10 seconds
+  })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    // Important: Don't let the app crash silently
+    // Either handle the error gracefully or exit
+  });
   
 })
 
