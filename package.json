@@ -33,7 +33,7 @@
     "mongodb-connection-string-url": "^3.0.2",
     "mongoose": "^8.4.3",
     "morgan": "^1.10.0",
-    "qs": "^6.11.2",
+    "qs": "^6.11.0",
     "side-channel": "^1.0.4",
     "side-channel-map": "^1.0.0",
     "webidl-conversions": "^7.0.0",
