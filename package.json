@@ -33,7 +33,12 @@
     "morgan": "^1.10.0",
     "webidl-conversions": "^7.0.0",
     "webidl2js": "^18.0.0",
-    "whatwg-url": "^14.2.0"
+    "whatwg-url": "^14.2.0",
+    "gopd": "^1.0.1",
+    "get-intrinsic": "^1.2.2",
+    "side-channel": "^1.0.4",
+    "side-channel-map": "^1.0.0",
+    "qs": "^6.11.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
