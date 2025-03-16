@@ -16,29 +16,7 @@ const blogRoutes = require('./routes/blogRoutes');
 const app = express();
 
 
-app.listen(process.env.PORT || 3000,()=>{
-
-  mongoose.connect(dbURI, {
-    serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds
-    connectTimeoutMS: 10000, // Give up initial connection after 10 seconds
-  })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => {
-    console.error('MongoDB connection error:', err);
-    // Important: Don't let the app crash silently
-    // Either handle the error gracefully or exit
-  });
-  
-})
-
-/*
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(result => app.listen(3000))
-  .catch(err => console.log(err));
-*/
-
-
-// register view engine
+// Register view engine
 app.set('view engine', 'ejs');
 
 // middleware & static files
@@ -62,7 +40,49 @@ app.get('/about', (req, res) => {
 // blog routes
 app.use('/blogs', blogRoutes);
 
-// 404 page
+// 404 page handler
 app.use((req, res) => {
-  res.status(404).render('404', { title: '404' });
+  // Check if this is a direct request to a non-existent route
+  if (req.path !== '/' && req.path !== '/blogs') {
+    // This is a genuine 404 situation - render the 404 view if it exists
+    try {
+      res.status(404).render('404', { title: '404' });
+    } catch (err) {
+      // If the 404 view doesn't exist or there's an error rendering it,
+      // fall back to redirecting to the home page
+      console.error('Error rendering 404 page:', err);
+      res.redirect('/');
+    }
+  } else {
+    // For root or /blogs paths, just redirect to home
+    res.redirect('/');
+  }
 });
+
+// Connect to MongoDB first, then start the server
+const PORT = process.env.PORT || 3000;
+
+mongoose.connect(dbURI, {
+  serverSelectionTimeoutMS: 5000,
+  connectTimeoutMS: 10000,
+})
+.then(() => {
+  // Start server after successful database connection
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log('Connected to MongoDB');
+  });
+})
+.catch(err => {
+  console.error('MongoDB connection error:', err);
+  // For Vercel, we should still start the server even if DB connection fails
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT} (without database connection)`);
+  });
+});
+
+/*
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(result => app.listen(3000))
+  .catch(err => console.log(err));
+*/
