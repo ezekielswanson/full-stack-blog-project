@@ -5,7 +5,7 @@
         "src": "index.js",
         "use": "@vercel/node",
         "config": {
-          "includeFiles": ["**/*.js", "**/*.ejs", "**/*.json"],
+          "includeFiles": ["**/*.js", "**/*.ejs", "**/*.json", ".env"],
           "nodeVersion": "18.x"
         }
       }
@@ -17,4 +17,4 @@
       }
     ],
     "installCommand": "npm install --omit=dev"
-  }
+}
